@@ -10,6 +10,8 @@ server.get('/stream', async (req, res) => {
 	const file = req.query.file;
 	const range = req.headers.range;
 
+	console.debug(`Streaming ${file} to ${req.headers.referer} (${range})`);
+
 	if (typeof file !== 'string') {
 		return res.send('No file');
 	} else if (!range) {
@@ -39,6 +41,8 @@ server.get('/video', async (req, res) => {
 	if (typeof file !== 'string') {
 		return res.send('No file');
 	}
+
+	console.debug(`Watching ${file} to ${req.headers.referer}`);
 
 	const contentType = await getContentType(file);
 	const size = await fs.promises.stat(file).then(stat => stat.size);
